@@ -1,28 +1,41 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Facebot</title>
-  </head>
 
-  <body>
-    <script>
-      window.fbAsyncInit = function() {
+<head>
+  <meta charset="utf-8">
+  <title>Facebot</title>
+</head>
+
+<body>
+  <script>
+      window.fbAsyncInit = function () {
         FB.init({
-          appId      : '1831398973815529',
-          xfbml      : true,
-          version    : 'v2.8'
+          appId: '1831398973815529',
+          xfbml: true,
+          version: 'v2.8'
         });
         FB.AppEvents.logPageView();
+
+        FB.getLoginStatus(function (response) {
+          if (response.status === 'connected') {
+            console.log(response);
+          }
+          else {
+            FB.login((response) => {
+              console.log(response);
+            });
+          }
+        });
       };
 
-      (function(d, s, id){
+      (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
+        if (d.getElementById(id)) { return; }
         js = d.createElement(s); js.id = id;
         js.src = "//connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
+      } (document, 'script', 'facebook-jssdk'));
     </script>
-  </body>
+</body>
+
 </html>
