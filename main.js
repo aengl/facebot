@@ -7,6 +7,7 @@ const app = express();
 app.use(express.static('public'))
 
 const fb = new Facebook({});
+const token = '';
 
 function succeeded(res) {
   if (!res) {
@@ -17,6 +18,14 @@ function succeeded(res) {
     return true;
   }
 }
+
+app.get('/token', (req, res) => {
+  if (req.params && req.params.token) {
+    token = req.params.token;
+    console.log('Received token:', token);
+    res.send('Thanks!');
+  }
+})
 
 // fb.setAccessToken('...');
 
@@ -42,4 +51,4 @@ function succeeded(res) {
 
 app.listen(3000, () => {
   console.log('Listening on port 3000')
-})
+});
