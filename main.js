@@ -12,6 +12,7 @@ let token = '';
 function setToken(t) {
   token = t;
   fb.setAccessToken(token);
+  console.log('Using token:', token);
 }
 
 function succeeded(res) {
@@ -38,21 +39,20 @@ function extendToken() {
   });
 }
 
-app.get('/token/:token', (req, res) => {
-  if (req.params && req.params.token) {
-    setToken(req.params.token);
-    console.log('Received token:', token);
-    res.send('Thanks!');
-    extendToken();
-  }
-  res.send('No token?!');
-})
+function listFeed() {
+  fb.api(`/v2.8/${process.env.FB_GROUP_ID}/feed`, res => {
+    if (succeeded(res)) {
+      console.log(res);
+    }
+  });
+}
 
-// fb.api(`/v2.8/${process.env.FB_GROUP_ID}/feed`, res => {
-//   if (succeeded(res)) {
-//     console.log(res);
-//   }
-// });
+app.get('/token/:token', (req, res) => {
+  setToken(req.params.token);
+  res.send('Thanks!');
+  extendToken();
+  listFeed();
+})
 
 app.listen(3000, () => {
   console.log('Listening on port 3000')
