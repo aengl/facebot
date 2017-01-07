@@ -7,7 +7,7 @@ const app = express();
 app.use(express.static('public'))
 
 const fb = new Facebook({});
-const token = '';
+let token = '';
 
 function setToken(t) {
   token = t;
@@ -38,7 +38,7 @@ function extendToken() {
   });
 }
 
-app.get('/token', (req, res) => {
+app.get('/token/:token', (req, res) => {
   if (req.params && req.params.token) {
     setToken(req.params.token);
     console.log('Received token:', token);
